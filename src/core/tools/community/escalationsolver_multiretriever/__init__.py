@@ -1,0 +1,4 @@
+from src.core.tools.registry import register_tool
+from .retriever_tool import escalationsolver_multiretriever_tool
+
+register_tool(escalationsolver_multiretriever_tool)

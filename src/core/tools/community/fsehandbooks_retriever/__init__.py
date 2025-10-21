@@ -1,0 +1,4 @@
+from .retriever_tool import fse_handbooks_retriever_tool
+from src.core.tools.registry import register_tool
+
+register_tool(fse_handbooks_retriever_tool)

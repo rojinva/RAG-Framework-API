@@ -1,0 +1,4 @@
+from src.core.tools.registry import register_tool
+from .retriever_tool import mfgopsmalaysia_retriever_tool
+
+register_tool(mfgopsmalaysia_retriever_tool)

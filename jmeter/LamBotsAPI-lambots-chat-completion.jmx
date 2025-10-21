@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Lambots Load Tester">
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group">
+        <intProp name="ThreadGroup.num_threads">10000</intProp>
+        <intProp name="ThreadGroup.ramp_time">60</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <intProp name="LoopController.loops">-1</intProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Flow Control Action">
+          <intProp name="ActionProcessor.action">1</intProp>
+          <intProp name="ActionProcessor.target">0</intProp>
+          <stringProp name="ActionProcessor.duration">60000</stringProp>
+        </TestAction>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="http request: chat_completion">
+          <stringProp name="HTTPSampler.path">chat/chat_completion/</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+  &quot;lambotId&quot;: &quot;e3b0c442-98fc-4f8e-9a1d-3b6a27a1f49c&quot;,&#xd;
+  &quot;queryConfig&quot;: {&#xd;
+    &quot;systemMessage&quot;: &quot;You are a chatbot agent, assisting users with some queries that can be answered using a single tool you have. This tool takes the query and convert it to search query (using SQL or Azure ACS search) through 4 databases nce, 8d, iplm problem report, and escalation solver tickets. Here is your instruction: \n      1. Receive user question and the conversation history. \n      2. First decide if the question is ambiguous or it is clear. If it does not have ambiguity, then run the tool. If it has ambiguity ask for clarification. How to check ambiguity is instructed as follows:\n&apos; +      - If the user specifies product but it is unclear for the agent to determine which of the following fields the user is referring to: \n&apos; +      nce: part product family, product group classification, product group, product type, system description group, system description, ABC description, MyLam system, org group\n iplm: primary product affected name, secondary product affected name, product group\n&apos; +      - If the user ask about a year or date or quarter such as QMarch, QMar, QSep, QJun, QDec, but it is unclear for the agent to determine which of the following date columns the user is referring to: \n nce: date current state, date opened, part fail date, RAM status date, warranty end, actual ship date, date opened fisc qtr, date closed\n&apos; +      8d: corrective action implementation date, containment grid conta item commit, D4 commit date, D5 completed by QCO date, D5 due date, D6 actual implementation date, D6 completed date, D6 validated date, D7 implemented date, date opened, FQM approved 8d date, QPL approved 8d date, date opened fiscal qtr text, corrective action summary implementation commit date, preventive action summary implementation date, closed date, submitted to close RC date\n es: Open date, closed date, open fisc quarter, closed fisc quarter\n      iplm: actual completion date, submitted date\n      - If the user ask about failure or failure mode but it is unclear for the agent to determine which of the following fields the user is referring to:\n      nce: Description, Nce Log, SAP Damage Code, Symptom Detail\n      8d: Root Cause Description or Root Cause Category (levels 1 - 3).  \n       es: Description, Problem Statement, Hypothesis \n      iplm: Problem Description, Reason, Cause Code, Root Cause Corrective Action.\n      3. If the user mentions part, run the tool with the user question updated with the conversation history.\n      4. If the user mentions \&quot;use ACS\&quot;, you should pass it to the tool with no change. The word ACS is very important to be passed. This is an instruction to use Azure search instead of SQL. \n      5. If the response from the tool starts with \&quot;Here are the top 20 rows of the data:\&quot;, makes sure to include that in the final response and let user know that this is only first 20 rows of data and guide user to check the data preview tab to see the larger preview of the data or download the full data.&quot;,&#xd;
+    &quot;temperature&quot;: 0,&#xd;
+    &quot;selectedTools&quot;: [ ],&#xd;
+    &quot;languageModel&quot;: {&#xd;
+      &quot;name&quot;: &quot;gpt-4o-2&quot;,&#xd;
+      &quot;displayName&quot;: &quot;GPT-4o&quot;,&#xd;
+      &quot;description&quot;: &quot;A powerful language model optimized for various tasks.&quot;,&#xd;
+      &quot;unsupportedFeatures&quot;: []&#xd;
+    },&#xd;
+    &quot;topK&quot;: 5,&#xd;
+    &quot;forceToolCall&quot;: false&#xd;
+  },&#xd;
+  &quot;messages&quot;: [&#xd;
+    { &quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;&quot; },&#xd;
+    {&#xd;
+      &quot;role&quot;: &quot;user&quot;,&#xd;
+      &quot;content&quot;: &quot;Using the NCe problem description, summarize the failure modes on Vantex B reported from Micron Semiconductor Asia with Date Opened in 2024&quot;&#xd;
+    }&#xd;
+  ]&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="View Results in Table" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+        <collectionProp name="HeaderManager.headers">
+          <elementProp name="" elementType="Header">
+            <stringProp name="Header.name">Content-Type</stringProp>
+            <stringProp name="Header.value">application/json</stringProp>
+          </elementProp>
+          <elementProp name="" elementType="Header">
+            <stringProp name="Header.name">Authorization</stringProp>
+            <stringProp name="Header.value">Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6Ik1IdEtLT1FDRERscGVLODZCaGxGbDhzN1VqRkpzOUFJdUVEUWswY2x5dTQiLCJhbGciOiJSUzI1NiIsIng1dCI6IkNOdjBPSTNSd3FsSEZFVm5hb01Bc2hDSDJYRSIsImtpZCI6IkNOdjBPSTNSd3FsSEZFVm5hb01Bc2hDSDJYRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC85MTgwNzlkYi1jOTAyLTRlMjktYjIyYy05NzY0NDEwZDAzNzUvIiwiaWF0IjoxNzQ1NDI5MTUzLCJuYmYiOjE3NDU0MjkxNTMsImV4cCI6MTc0NTQzMzMwMiwiYWNjdCI6MCwiYWNyIjoiMSIsImFjcnMiOlsicDEiLCJ1cm46dXNlcjpyZWdpc3RlcnNlY3VyaXR5aW5mbyIsImMxIl0sImFpbyI6IkFXUUFtLzhaQUFBQWFLbHBkRll5WGxNNmluaVV2S1JZaTF2YURYTWN0eVB3eG9xYWhpaHlxMnBDL29ueUdGQTlkMVhYam9zdURzUENwYTBTUkNZM1AxZXZZWUpXWnpJY0NDM2ZNckRsbFM4OVVFNWJXNEpxdzlYZmd1Q01xb0JtL3QyU3J2aXNLTXFZIiwiYW1yIjpbInB3ZCIsInJzYSIsIm1mYSJdLCJhcHBfZGlzcGxheW5hbWUiOiJzcC1kZi1sYW1ib3RzLWRldiIsImFwcGlkIjoiYTBmZTllMzMtNThiNC00ODUzLWFjYzMtZTYzMTM2OGY0Mjk4IiwiYXBwaWRhY3IiOiIwIiwiZGV2aWNlaWQiOiIyMDY4MmQyYi02MDIxLTQzYWItODJjZi1jNTdhZTUyNDk4MzQiLCJmYW1pbHlfbmFtZSI6IkR5ZXIiLCJnaXZlbl9uYW1lIjoiRGFuaWVsIiwiaWR0eXAiOiJ1c2VyIiwiaXBhZGRyIjoiNDAuMTE4LjE2NS4xNjkiLCJuYW1lIjoiRHllciwgRGFuaWVsIiwib2lkIjoiODdmZTgzNTAtODk1ZC00ZDNiLWExNDMtZWViMWM1ZTlkNmNmIiwib25wcmVtX3NpZCI6IlMtMS01LTIxLTE0NjEzMDUtODM5ODA4MDQ3LTkzMjk5NTAzNy00MzAyODAiLCJwbGF0ZiI6IjMiLCJwdWlkIjoiMTAwMzIwMDNFNzZFNzZGNiIsInJoIjoiMS5BVnNBMjNtQWtRTEpLVTZ5TEpka1FRMERkUU1BQUFBQUFBQUF3QUFBQUFBQUFBRDVBT3hiQUEuIiwic2NwIjoiQ2FsZW5kYXJzLlJlYWRXcml0ZS5TaGFyZWQgb3BlbmlkIHByb2ZpbGUgVXNlci5SZWFkIFVzZXIuUmVhZC5BbGwiLCJzaWQiOiIwMDIyMzVlOS0xYmI3LTExMDAtZmFkNy00Yzc3MzgwZTg3ZTAiLCJzaWduaW5fc3RhdGUiOlsiZHZjX21uZ2QiLCJkdmNfY21wIiwiZHZjX2RtamQiLCJpbmtub3dubnR3ayIsImttc2kiXSwic3ViIjoib1ZDLWlDTzdWUDBIdVFTeWpQWDdlbUFrNDg4WVBFRDhzM0NpblRWS2RjYyIsInRlbmFudF9yZWdpb25fc2NvcGUiOiJOQSIsInRpZCI6IjkxODA3OWRiLWM5MDItNGUyOS1iMjJjLTk3NjQ0MTBkMDM3NSIsInVuaXF1ZV9uYW1lIjoiRGFuaWVsLkR5ZXJAbGFtcmVzZWFyY2guY29tIiwidXBuIjoiRGFuaWVsLkR5ZXJAbGFtcmVzZWFyY2guY29tIiwidXRpIjoiaGc4LVdoZXpDVXlxY195WDBRZU5BQSIsInZlciI6IjEuMCIsIndpZHMiOlsiYjc5ZmJmNGQtM2VmOS00Njg5LTgxNDMtNzZiMTk0ZTg1NTA5Il0sInhtc19pZHJlbCI6IjMwIDEiLCJ4bXNfdGNkdCI6MTM1MzkwMjE0Nn0.XWQgEHaFyvWJ_OLqXrPnmMEqqBCw_NhOyRd9sgZLYyGGI26wyxwJRkoyJiqbVWRb3jcGOIrimoimaQQdoLq9Geh_tR0PmZha-oCcJPpbBPk97cjDJ8RE788td-WyJHeox2AwYG5-z0ugFhM5NitKsM1t8R11324JdsNCnuIpSgEH0q5DJy7J11uhv5nF2HYhcznzwaBIC39MUn0R0APte8IADowjBJhwjfuTuteh3MviJ3yJ9kzhnuutgxQNwfbIxZTC5ojgjWxv0iIqCEaVfIsz5lfpg8BTTGddM4VKBhauelqrKJBDvVlB5tg1YWb7aEvf0IUvyQQBwiFVRv3Qaw</stringProp>
+          </elementProp>
+        </collectionProp>
+      </HeaderManager>
+      <hashTree/>
+      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
+        <stringProp name="TestPlan.comments">dev 10.52.42.10</stringProp>
+        <stringProp name="HTTPSampler.domain">10.52.42.10</stringProp>
+        <stringProp name="HTTPSampler.port">8000</stringProp>
+        <stringProp name="HTTPSampler.protocol">http</stringProp>
+        <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+          <collectionProp name="Arguments.arguments"/>
+        </elementProp>
+        <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+      </ConfigTestElement>
+      <hashTree/>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

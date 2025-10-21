@@ -1,0 +1,4 @@
+IQMS_NCE_LIVE = "gq.IQMS_NCE_LIVE"
+RPT_IQMS_8D_GRID = "gq.RPT_IQMS_8D_Grid"
+VW_IPLM_PROBLEM_REPORT = "eng.vw_IPLMProblemReport"
+VW_OAI_ESCALATION_TICKETS = "es.vw_oai_EscalationTickets"

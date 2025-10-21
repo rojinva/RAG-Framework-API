@@ -1,0 +1,5 @@
+FROM python:3.11-slim
+WORKDIR /app
+COPY . /app
+RUN pip install --no-cache-dir --trusted-host pypi.org --trusted-host files.pythonhosted.org -r requirements.txt
+CMD sh -c "cat /app/cacert_lam.pem >> /usr/local/lib/python3.11/site-packages/certifi/cacert.pem && uvicorn src.app:app --host 127.0.0.1 --port 8000"

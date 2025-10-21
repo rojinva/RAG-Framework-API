@@ -1,0 +1,4 @@
+from .retriever_tool import llamacloud_evaluation_retriever_tool
+from src.core.tools.registry import register_tool
+
+register_tool(llamacloud_evaluation_retriever_tool)

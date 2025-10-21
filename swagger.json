@@ -1,0 +1,547 @@
+{
+  "definitions": {
+    "HTTPValidationError": {
+      "properties": {
+        "detail": {
+          "items": {
+            "$ref": "#/definitions/ValidationError"
+          },
+          "title": "Detail",
+          "type": "array"
+        }
+      },
+      "title": "HTTPValidationError",
+      "type": "object"
+    },
+    "LamBotConfig": {
+      "properties": {
+        "allow_followup_questions": {
+          "description": "Whether follow up questions are allowed. If False, the LamBot will ask follow up questions.",
+          "title": "Allow Followup Questions",
+          "type": "boolean"
+        },
+        "allow_generic_questions": {
+          "description": "Whether generic questions are allowed. If False, the LamBot will always call a function.",
+          "title": "Allow Generic Questions",
+          "type": "boolean"
+        },
+        "api_version": {
+          "description": "API Version",
+          "title": "Api Version",
+          "type": "string"
+        },
+        "authorization": {
+          "description": "Authorization for the bot.",
+          "title": "Authorization",
+          "type": "string"
+        },
+        "creation_date": {
+          "description": "Creation date of the bot.",
+          "format": "date-time",
+          "title": "Creation Date",
+          "type": "string"
+        },
+        "creator": {
+          "description": "Name of the creator",
+          "title": "Creator",
+          "type": "string"
+        },
+        "description": {
+          "description": "Short description of this LamBot.",
+          "title": "Description",
+          "type": "string"
+        },
+        "display_name": {
+          "description": "Display name for this LamBot.",
+          "title": "Display Name",
+          "type": "string"
+        },
+        "id": {
+          "format": "uuid",
+          "title": "Id",
+          "type": "string"
+        },
+        "last_modified_date": {
+          "description": "Last modified date",
+          "format": "date-time",
+          "title": "Last Modified Date",
+          "type": "string"
+        },
+        "system_message": {
+          "description": "System message used by this LamBot.",
+          "title": "System Message",
+          "type": "string"
+        },
+        "tools": {
+          "description": "Tools available to be called by this LamBot.",
+          "items": {
+            "$ref": "#/definitions/ToolConfig"
+          },
+          "title": "Tools",
+          "type": "array"
+        }
+      },
+      "required": [
+        "display_name",
+        "description",
+        "creator",
+        "api_version",
+        "system_message",
+        "tools",
+        "allow_generic_questions",
+        "allow_followup_questions",
+        "authorization"
+      ],
+      "title": "LamBotConfig",
+      "type": "object"
+    },
+    "LamBotRequest": {
+      "properties": {
+        "chat_completion": {
+          "description": "",
+          "items": {
+            "type": "object"
+          },
+          "title": "Chat Completion",
+          "type": "array"
+        },
+        "lambot_config": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/LamBotConfig"
+            }
+          ],
+          "description": ""
+        },
+        "query_config": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/QueryConfig"
+            }
+          ],
+          "description": ""
+        }
+      },
+      "required": [
+        "lambot_config",
+        "query_config",
+        "chat_completion"
+      ],
+      "title": "LamBotRequest",
+      "type": "object"
+    },
+    "QueryConfig": {
+      "properties": {
+        "search_config": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/SearchConfig"
+            }
+          ],
+          "description": "Search Config"
+        },
+        "selected_data_sources": {
+          "description": "",
+          "items": {
+            "type": "string"
+          },
+          "title": "Selected Data Sources",
+          "type": "array"
+        },
+        "temperature": {
+          "description": "",
+          "title": "Temperature",
+          "type": "number"
+        },
+        "use_tools": {
+          "description": "Whether to use/invoke a tool for the query",
+          "title": "Use Tools",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "temperature",
+        "selected_data_sources",
+        "search_config",
+        "use_tools"
+      ],
+      "title": "QueryConfig",
+      "type": "object"
+    },
+    "SearchConfig": {
+      "properties": {
+        "search_param": {
+          "description": "Search params",
+          "title": "Search Param",
+          "type": "object"
+        }
+      },
+      "required": [
+        "search_param"
+      ],
+      "title": "SearchConfig",
+      "type": "object"
+    },
+    "ToolConfig": {
+      "properties": {
+        "doc_string": {
+          "description": "Doc String of the tool",
+          "title": "Doc String",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the tool",
+          "title": "Name",
+          "type": "string"
+        },
+        "search_config": {
+          "description": "Search Config",
+          "items": {
+            "$ref": "#/definitions/SearchConfig"
+          },
+          "title": "Search Config",
+          "type": "array"
+        },
+        "tool_type": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ToolType"
+            }
+          ],
+          "description": "Type of the Tool"
+        }
+      },
+      "required": [
+        "name",
+        "doc_string",
+        "search_config",
+        "tool_type"
+      ],
+      "title": "ToolConfig",
+      "type": "object"
+    },
+    "ToolType": {
+      "enum": [
+        1,
+        2
+      ],
+      "title": "ToolType",
+      "type": "integer"
+    },
+    "ValidationError": {
+      "properties": {
+        "loc": {
+          "items": {},
+          "title": "Location",
+          "type": "array"
+        },
+        "msg": {
+          "title": "Message",
+          "type": "string"
+        },
+        "type": {
+          "title": "Error Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "loc",
+        "msg",
+        "type"
+      ],
+      "title": "ValidationError",
+      "type": "object"
+    }
+  },
+  "info": {
+    "title": "LamBots API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/chat/chat_completion/": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Get chat completion.",
+        "operationId": "get_chat_completion_chat_chat_completion__post",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LamBotRequest"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "schema": {}
+          },
+          "422": {
+            "description": "Validation Error",
+            "schema": {
+              "$ref": "#/definitions/HTTPValidationError"
+            }
+          }
+        },
+        "summary": "Get Chat Completion"
+      }
+    },
+    "/chat_external/chat_completion_external/": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Get chat completion external.",
+        "operationId": "get_chat_completion_chat_completion_non_streaming_chat_chat_completion__post",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LamBotRequest"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-trace-id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "graph-token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "schema": {}
+          },
+          "422": {
+            "description": "Validation Error",
+            "schema": {
+              "$ref": "#/definitions/HTTPValidationError"
+            }
+          }
+        },
+        "summary": "Get Chat Completion External"
+      }
+    },
+    "/entity/thread/{threadId}": {
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "delete external conversation",
+        "operationId": "delete_conversation_external",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-trace-id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "graph-token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Thread Id to delete the record",
+            "in": "path",
+            "name": "threadId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "schema": {}
+          },
+          "422": {
+            "description": "Validation Error",
+            "schema": {
+              "$ref": "#/definitions/HTTPValidationError"
+            }
+          }
+        },
+        "summary": "Delete conversation for given thread"
+      },
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "read external conversation",
+        "operationId": "read_conversation_external_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-trace-id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "graph-token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Thread Id to delete the record",
+            "in": "path",
+            "name": "threadId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "schema": {}
+          },
+          "422": {
+            "description": "Validation Error",
+            "schema": {
+              "$ref": "#/definitions/HTTPValidationError"
+            }
+          }
+        },
+        "summary": "Get conversation for given thread"
+      }
+    },
+    "/entity/threads/": {
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "delete all external conversation",
+        "operationId": "delete_all_conversations_external",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-trace-id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "graph-token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "schema": {}
+          },
+          "422": {
+            "description": "Validation Error",
+            "schema": {
+              "$ref": "#/definitions/HTTPValidationError"
+            }
+          }
+        },
+        "summary": "Delete all conversations"
+      },
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "get all external conversation",
+        "operationId": "get_all_conversations_external",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-trace-id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "graph-token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "schema": {}
+          },
+          "422": {
+            "description": "Validation Error",
+            "schema": {
+              "$ref": "#/definitions/HTTPValidationError"
+            }
+          }
+        },
+        "summary": "Get all conversations"
+      }
+    },
+    "/chat/echo/": {
+      "get": {
+        "operationId": "echo_chat_echo__get",
+        "parameters": [
+          {
+            "in": "query",
+            "maxLength": 20,
+            "name": "input_value",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "schema": {
+              "title": "Response Echo Chat Echo  Get",
+              "type": "string"
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "schema": {
+              "$ref": "#/definitions/HTTPValidationError"
+            }
+          }
+        },
+        "summary": "Echo",
+        "tags": [
+          "APIs"
+        ]
+      }
+    }
+  },
+  "swagger": "2.0"
+}

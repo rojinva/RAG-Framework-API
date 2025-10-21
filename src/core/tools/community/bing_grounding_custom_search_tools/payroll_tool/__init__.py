@@ -1,0 +1,4 @@
+from src.core.tools.registry import register_tool
+from .tool import bing_grounding_custom_search_payroll_tool
+
+register_tool(bing_grounding_custom_search_payroll_tool)

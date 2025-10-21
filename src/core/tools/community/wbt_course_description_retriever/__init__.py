@@ -1,0 +1,4 @@
+from .retriever_tool import wbt_course_description_retriever_tool
+from src.core.tools.registry import register_tool
+
+register_tool(wbt_course_description_retriever_tool)

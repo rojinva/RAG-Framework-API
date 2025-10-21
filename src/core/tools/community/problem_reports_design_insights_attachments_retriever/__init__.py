@@ -1,0 +1,4 @@
+from .retriever_tool import problem_reports_attachments_retriever_tool
+from src.core.tools.registry import register_tool
+
+register_tool(problem_reports_attachments_retriever_tool)

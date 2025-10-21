@@ -1,0 +1,4 @@
+from .retriever_tool import edmscustomersurvey_retriever_tool
+from src.core.tools.registry import register_tool
+
+register_tool(edmscustomersurvey_retriever_tool)

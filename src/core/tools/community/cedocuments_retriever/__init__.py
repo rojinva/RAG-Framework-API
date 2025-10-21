@@ -1,0 +1,4 @@
+from .retriever_tool import ce_documents_retriever_tool
+from src.core.tools.registry import register_tool
+
+register_tool(ce_documents_retriever_tool)

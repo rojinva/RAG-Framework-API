@@ -1,0 +1,4 @@
+from .retriever_tool import software_release_notes_retriever_tool 
+from src.core.tools.registry import register_tool
+
+register_tool(software_release_notes_retriever_tool )

@@ -1,0 +1,4 @@
+from src.core.tools.registry import register_tool
+from .retriever_tool import etch_app_training_multiretriever_tool
+
+register_tool(etch_app_training_multiretriever_tool)

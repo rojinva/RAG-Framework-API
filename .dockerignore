@@ -1,0 +1,22 @@
+# Git
+.git
+.gitignore
+
+
+# IDEs
+.idea/
+
+# Documentation
+*.md
+README*
+
+# CI/CD
+.azuredevops
+
+# Security scan
+security_scan_PR.yml
+
+#lambots helm chart
+helm/
+
+

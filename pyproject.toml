@@ -1,0 +1,82 @@
+[tool.poetry]
+name = "ent-openai-lambots-api"
+version = "0.1.0"
+description = ""
+readme = "README.md"
+package-mode = false 
+
+
+[tool.poetry.dependencies]
+python = "~3.11"
+fastapi = "0.115.6"
+langchain = "0.3.14"
+langfuse = "2.57.5"
+openai = "1.99.3"
+python-dotenv = "1.0.1"
+requests = "2.32.3"
+uvicorn = "0.34.0"
+pymongo = "4.10.1"
+pandas = "2.2.3"
+pydantic = {extras = ["email"], version = "^2.11.9"}
+pyodbc = "5.1.0"
+langchain-openai = "0.2.14"
+langchain-community = "0.3.14"
+azure-storage-blob = "12.19.1"
+openpyxl = "3.1.5"
+tabulate = "0.9.0"
+sqlalchemy = "2.0.31"
+anyio = "4.8.0"
+pydantic-settings = "2.7.1"
+tenacity = "9.0.0"
+fastapi-pagination = "^0.12.34"
+azure-monitor-opentelemetry = "^1.6.8"
+langgraph = "0.4.10"
+
+redis = "^6.1.0"
+azure-search-documents = "^11.5.2"
+python-pptx = "^1.0.2"
+azure-ai-projects = "1.0.0b12"
+azure-ai-agents = "1.1.0b3"
+langchain-core = "0.3.63"
+matplotlib = "^3.10.6"
+
+
+[tool.poetry.group.dev.dependencies]
+poethepoet = "^0.31.1"
+black = "24.2.0"
+
+
+[tool.poetry.group.server.dependencies]
+gunicorn = "^23.0.0"
+
+[tool.poetry.group.testing.dependencies]
+pytest-mock = "^3.14.1"
+pytest-asyncio = "^1.0.0"
+pytest = "8.2.2"
+pytest-cov = "^6.1.1"
+mongomock = "^4.3.0"
+
+
+[tool.poe.tasks]
+dev = "uvicorn src.app:app --host 0.0.0.0 --port 8000 --reload"
+start = "uvicorn src.app:app --host 0.0.0.0 --port 8000 --reload"
+
+[tool.black]
+line-length = 90
+target-version = ["py38", "py39", "py310", "py311"]
+include = '\.pyi?$'
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "--maxfail=3 --disable-warnings -v"
+testpaths = [
+    "tests"
+]
+log_cli = true
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)s [%(levelname)s] %(message)s"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
+log_file = "pytest.log"
+log_file_level = "DEBUG"
+log_file_format = "%(asctime)s [%(levelname)s] %(message)s"
+log_file_date_format = "%Y-%m-%d %H:%M:%S"

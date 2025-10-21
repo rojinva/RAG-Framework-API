@@ -1,0 +1,4 @@
+from .retriever_tool import meetingminer_retriever_tool
+from src.core.tools.registry import register_tool
+
+register_tool(meetingminer_retriever_tool)

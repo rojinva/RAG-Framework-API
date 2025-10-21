@@ -1,0 +1,4 @@
+from .retriever_tool import escalationsolver_ccidocs_retriever_tool
+from src.core.tools.registry import register_tool
+
+register_tool(escalationsolver_ccidocs_retriever_tool)

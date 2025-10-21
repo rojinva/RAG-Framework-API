@@ -1,0 +1,4 @@
+from .retriever_tool import etch_sharepoint_sg_retriever_tool
+from src.core.tools.registry import register_tool
+
+register_tool(etch_sharepoint_sg_retriever_tool)

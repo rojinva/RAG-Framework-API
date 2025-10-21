@@ -1,0 +1,4 @@
+from .retriever_tool import corporateaccounting_retriever_tool
+from src.core.tools.registry import register_tool
+
+register_tool(corporateaccounting_retriever_tool)

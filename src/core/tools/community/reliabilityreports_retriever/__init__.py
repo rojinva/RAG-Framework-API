@@ -1,0 +1,4 @@
+from .retriever_tool import reliabilityreports_retriever_tool
+from src.core.tools.registry import register_tool
+
+register_tool(reliabilityreports_retriever_tool)

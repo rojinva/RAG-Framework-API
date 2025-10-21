@@ -1,0 +1,4 @@
+from .retriever_tool import sem3d_up_confluence_retriever_tool
+from src.core.tools.registry import register_tool
+
+register_tool(sem3d_up_confluence_retriever_tool)

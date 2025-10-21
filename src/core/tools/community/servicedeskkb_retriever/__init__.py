@@ -1,0 +1,4 @@
+from .retriever_tool import servicedeskkb_retriever_tool
+from src.core.tools.registry import register_tool
+
+register_tool(servicedeskkb_retriever_tool)

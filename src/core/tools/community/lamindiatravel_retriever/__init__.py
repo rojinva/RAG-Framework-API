@@ -1,0 +1,4 @@
+from .retriever_tool import lamindiatravel_retriever_tool
+from src.core.tools.registry import register_tool
+
+register_tool(lamindiatravel_retriever_tool)

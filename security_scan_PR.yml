@@ -1,0 +1,84 @@
+# This client yaml pipeline calls the sonarqube and blackduck scan templates located in the GIS_LAM_DevOps project 
+
+# Pass both sonar and blackduck properties specific to your project as parameters to the template
+
+trigger:
+  branches:
+    include:
+      - master
+      - develop
+
+resources:
+  repositories:
+  - repository: silkCentralDevOpsRepository
+    type: git
+    name: GIS_Lam_DevOps/SLT_DevOps_Utils
+
+pool:
+  name: DSML-pool
+
+variables:
+- name: JAVA_HOME
+  value: '/usr/lib/jvm/java-17'
+- group: Security-Scan-Variable
+  
+stages:
+- stage: BlackduckCleanup
+  jobs:
+  - job: BlackduckCleanup
+    steps:
+    - checkout: silkCentralDevOpsRepository
+      path: silkCentralDevOpsRepository
+
+    - script: |
+        python -m venv blackduck_cleanup_venv
+        source blackduck_cleanup_venv/bin/activate
+        pip install blackduck
+        python $(Build.SourcesDirectory)/src/blackduck/delete_bd_project_versions.py \
+               --url="$(blackduck.url)" \
+               --token="$(blackduck.api.token)" \
+               --project="GIS_SILK_ent-openai-lambots-api" \
+               --mode="updatedAt" \
+               --count="70"
+        deactivate
+      displayName: 'Cleanup Old blackduck project versions'
+
+- template: Security-Scan-Template/V1/sonarqube-scan-validation.yml@silkCentralDevOpsRepository
+  parameters:
+           # Path to where custom Java 17 is installed on the agent
+    JAVA_HOME: '/usr/lib/jvm/java-17'  
+           # Path to sonar cert
+    NODE_EXTRA_CA_CERTS: '/home/svc_ado/adoagent/sonarRootFirst.crt'  
+           # SonarQube service connection
+    SonarQube_Service_Connection: 'lam-devops-dshub-SonarQube-conn'
+           # The name of the project in SonarQube. This is how the project will be displayed in the SonarQube UI.
+    SonarQube_ProjectName: 'ent-openai-lambots-api' 
+           # The unique key for the project in SonarQube. This should be unique for each project.
+    SonarQube_ProjectKey: 'DS_Hub_ent-openai-lambots-api_6d2afb12-1282-4674-a0b1-9c3f4f3be48c' 
+           # The directory containing the compiled Java classes. This is used for bytecode analysis.
+    javaBinaries: '$(Build.SourcesDirectory)'  
+           # The directory containing the test source code. This is used to identify test files for coverage analysis.
+    #tests: '$(Build.SourcesDirectory)/src/test/java' 
+           # A pattern to include specific test files. In this case, it includes all files ending with 'Test.java'.
+    #testInclusions: '**/*Test.java' 
+           # The path to the JUnit test report. This is used to import test results into SonarQube.
+    #junitreportPaths: '$(Build.SourcesDirectory)/target/surefire-reports'  
+           # A pattern to exclude specific files or directories from code coverage analysis. In this case, it excludes all files in the 'generated' directory.
+    coverageExclusions: '**/generated/**' 
+           # The path to the JaCoCo XML coverage report. This is used to import code coverage data into SonarQube.
+    coverageJacocoXmlReportPaths: $(Build.SourcesDirectory)/target/site/jacoco/jacoco.xml
+           # The path to the LCOV coverage report for TypeScript code. This is used to import code coverage data into SonarQube.
+    typescriptLcovReportPaths: '$(Build.SourcesDirectory)/coverage/lcov.info'
+           # The path to the xUnit-style test report for Python unit tests. This is used to import test results into SonarQube.
+    pythonXunitReportPath: '$(Build.SourcesDirectory)/test-reports/xunit-result.xml'
+           # The path to the coverage report for Python code. This is used to import code coverage data into SonarQube.
+    pythonCoverageReportPaths: '$(Build.SourcesDirectory)/coverage/coverage.xml'
+
+- template: Security-Scan-Template/V1/blackduck-scan-validation.yml@silkCentralDevOpsRepository
+  parameters:
+    BlackDuckServiceConnection: 'Blackduck-Production'
+    Blackduck_ProjectName: 'GIS_SILK_ent-openai-lambots-api'
+    pipPath: '/bin/pip3'
+    pythonPath: '/usr/bin/python3'
+    projectVersionName: '$(Build.SourceBranchName)'
+    pythonProject: 'true'

@@ -1,0 +1,4 @@
+from .retriever_tool import edmslegalethics_retriever_tool
+from src.core.tools.registry import register_tool
+
+register_tool(edmslegalethics_retriever_tool)

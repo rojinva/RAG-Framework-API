@@ -1,0 +1,4 @@
+from .retriever_tool import lamindiafinance_retriever_tool
+from src.core.tools.registry import register_tool
+
+register_tool(lamindiafinance_retriever_tool)
